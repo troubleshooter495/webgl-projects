@@ -1,0 +1,15 @@
+@import url("https://webglfundamentals.org/webgl/resources/webgl-tutorials.css"); 
+
+ * {
+ 	padding: 0px;
+ 	margin: 0px;
+ }
+
+ #mainCanvas {
+ 	width: 100vw;
+ 	height: 100vh;
+ }
+
+ #ui {
+  width: 200px;
+}
