@@ -12,6 +12,7 @@ function main() {
     var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
     var colorLocation = gl.getUniformLocation(program, "u_color");
     var translationLocation = gl.getUniformLocation(program, "u_translation");
+    var scaleLocation = gl.getUniformLocation(program, "u_scale");
     var positionBuffer = gl.createBuffer();
     var rotationLocation = gl.getUniformLocation(program, "u_rotation");
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -19,6 +20,7 @@ function main() {
     setGeometry(gl);
 
     var translation = [0, 0];
+    var scale = [1, 1];
     var rotation = [0, 1];
     var width = 100;
     var height = 30;
@@ -29,6 +31,7 @@ function main() {
     webglLessonsUI.setupSlider("#x", { slide: updatePosition(0), max: gl.canvas.width });
     webglLessonsUI.setupSlider("#y", { slide: updatePosition(1), max: gl.canvas.height });
     webglLessonsUI.setupSlider("#r", { slide: updateAngle, max: 360 });
+    webglLessonsUI.setupSlider("#s", { slide: updateSize, max: 1000 });
 
     function updatePosition(index) {
         return function(event, ui) {
@@ -43,6 +46,13 @@ function main() {
         rotation[0] = Math.sin(angleInRadians);
         rotation[1] = Math.cos(angleInRadians);
         drawScene();
+    }
+
+    function updateSize(event, ui) {
+      var scalingCoefficient = ui.value / 100;
+      scale[0] = scalingCoefficient;
+      scale[1] = scalingCoefficient;
+      drawScene();
     }
 
     function drawScene() {
@@ -61,6 +71,7 @@ function main() {
         gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
         gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
         gl.uniform2fv(rotationLocation, rotation);
+        gl.uniform2fv(scaleLocation, scale);
         gl.uniform4fv(colorLocation, color);
         gl.uniform2fv(translationLocation, translation);
 
